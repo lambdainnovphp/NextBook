@@ -9,30 +9,32 @@ include('dbconfig.php');
     </head>
     <body>
 
-    	<ul style="list-style:none; text-align:center;padding:50px 0px 0px 0px;margin:0px 0px -45px -228px;">
-			<?php
-			if($_SESSION['Email']!="")
-			{?>
-    		<li>
-				<div class="text-center">
-					<a href="index.php">Home</a>				
-					<a href="#">People</a>
-					<a href="Invoice.php">Invoices</a>
-					<a href="#">Expenses</a>				
-					<a href="logout.php">Sign Out</a>
-				</div>
-			</li>
+    	<section class="loginform cf">
 
-			<?php } else {?>
+	    	<ul style="list-style:none; text-align:center;">
+				<?php
+				if($_SESSION['Email']!="")
+				{?>
+	    		<li>
+					<div class="text-center">
+						<a href="index.php">Home</a>				
+						<a href="#">People</a>
+						<a href="Invoice.php">Invoices</a>
+						<a href="#">Expenses</a>				
+						<a href="logout.php">Sign Out</a>
+					</div>
+				</li>
 
-			<li>
-				<div class="text-center">
-					<a href="index.php">Home</a>				
-					<a href="#">People</a>
-					<a href="#">Invoices</a>
-					<a href="#">Expenses</a>
-				</div>
-			</li>
+				<?php } else {?>
 
-			<?php } ?>
-		</ul>
+				<li>
+					<div class="text-center">
+						<a href="index.php">Home</a>				
+						<a href="#">People</a>
+						<a href="#">Invoices</a>
+						<a href="#">Expenses</a>
+					</div>
+				</li>
+
+				<?php } ?>
+			</ul><br><br>

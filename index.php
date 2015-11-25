@@ -19,24 +19,21 @@ if($_SESSION['Email']=="")
         }
     }
 ?>
-    <section class="loginform cf">
 	    
-	    <form name="login" method="post">
-	        <ul>
-	            <li>
-	                <label for="usermail">Email</label>
-	                <input type="email" name="usermail" placeholder="yourname@email.com" required>
-	            </li>
-	            <li>
-	                <label for="password">Password</label>
-	                <input type="password" name="Upassword" placeholder="password" required></li>
-	            <li>
-	                <input type="submit" name="submit" value="Login">
-	            </li>
-	        </ul>
-	    </form>
-
-	</section>
+    <form name="login" method="post">
+        <ul>
+            <li>
+                <label for="usermail">Email</label>
+                <input type="email" name="usermail" placeholder="yourname@email.com" required>
+            </li>
+            <li>
+                <label for="password">Password</label>
+                <input type="password" name="Upassword" placeholder="password" required></li>
+            <li>
+                <input type="submit" name="submit" value="Login">
+            </li>
+        </ul>
+    </form>
 
 <?php
 }
@@ -45,34 +42,32 @@ else
     $Usql = "select * from users where email='".$_SESSION['Email']."'";
     $res_Usql=mysql_fetch_assoc(mysql_query($Usql));
 ?>
-	<section class="loginform cf">
-
-	    Welcome <?php echo $res_Usql['Firstname'];?>
-	    <br><br>
-	    <table>
-	        <tr>
-	            <td>Invoices</td>
-	            <td>Expenses</td>
-	        </tr>
-	        <tr align="center">
-	            <td>
-	            <?php 
-	                $InvCount = mysql_query("Select * from invoice where UserId='".$_SESSION['Userid']."'");
-	                echo $InvCVals = mysql_num_rows($InvCount);
-	            ?>
-	            </td>
-	            <td>
-	            <?php 
-	                $ExpCount = mysql_query("Select * from expenses where UserId='".$_SESSION['Userid']."'");
-	                echo $ExpCVals = mysql_num_rows($ExpCount);                 
-	            ?>
-	            </td>
-	        </tr>
-	    </table> 
-
-	</section>
+    Welcome <?php echo $res_Usql['Firstname'];?>
+    <br>
+    <table>
+        <tr>
+            <td>Invoices</td>
+            <td>Expenses</td>
+        </tr>
+        <tr align="center">
+            <td>
+            <?php 
+                $InvCount = mysql_query("Select * from invoice where UserId='".$_SESSION['Userid']."'");
+                echo $InvCVals = mysql_num_rows($InvCount);
+            ?>
+            </td>
+            <td>
+            <?php 
+                $ExpCount = mysql_query("Select * from expenses where UserId='".$_SESSION['Userid']."'");
+                echo $ExpCVals = mysql_num_rows($ExpCount);                 
+            ?>
+            </td>
+        </tr>
+    </table> 
 
 <?php } ?>
+
+	</section>
 
     </body>
 </html>
