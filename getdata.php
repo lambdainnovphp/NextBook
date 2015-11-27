@@ -9,7 +9,7 @@ if($_GET['mode']=="Clientdata")
     <div>
         <table>
             <tr>
-                <td valign="top"><b>Address</b></td>
+                <td valign="top">Address</td>
                 <td><?php echo $res_exCLsql['organizationName'];?><br>
                   <?php echo $res_exCLsql['street1'];?><br>
                   <?php echo $res_exCLsql['street1'];?><br>

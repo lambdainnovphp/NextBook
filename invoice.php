@@ -67,8 +67,8 @@ $res_Usql=mysql_fetch_assoc(mysql_query($Usql));
 			    	<div class="left-div">
 			    		<table>
 			    			<tr>
-			    				<td>Client</td>
-			    				<td><select name="ClientName" id="ClientName" style="width:200px;">
+			    				<td>Client
+			    				<select name="ClientName" id="ClientName" style="width:200px;">
                                         <option value=""></option>
                                         <?php 
                                         $Clisql = "select * from client";
@@ -81,7 +81,7 @@ $res_Usql=mysql_fetch_assoc(mysql_query($Usql));
                                 </td>			
 			    			</tr>	
 			    			<tr>
-                                <td></td><td id="showCldata"></td>
+                                <td id="showCldata"></td>
                             </tr>		    			
 			    		</table>
 			    	</div>
@@ -223,7 +223,6 @@ $res_Usql=mysql_fetch_assoc(mysql_query($Usql));
 		    	// Getting client details from database
 		    	$("#ClientName").on('change',function(){
 		            var CN = $('#ClientName :selected').val();
-		            alert(CN);
 		            if(CN != "")
 		            {
 		                $.ajax({
