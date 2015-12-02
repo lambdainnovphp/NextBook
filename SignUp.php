@@ -8,8 +8,6 @@ if($_POST['submit']=="Save")
 }
 ?>
 
-<section class="loginform cf">
-
     <form name="signUpProc" method="post">
         <table>
             <tr>

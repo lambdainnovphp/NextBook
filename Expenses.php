@@ -118,9 +118,14 @@ small{
                         </tr>
 
                         <tr>
+                            <td colspan="2"><input type="checkbox" name="Staxes" id="Staxes" onclick="showDrop('taxs');">Taxes</td>
+                            <td><input type="checkbox" name="SRecurring" id="SRecurring" onclick="showDrop('Recc');">Recurring</td>
+                            <td><input type="checkbox" name="SAssign" id="SAssign" onclick="showDrop('Assgn');">Assign To Client</td>
+                        </tr>
+
+                        <tr>
                             <td colspan="2">
-                                <div style="width:130px;"><input type="checkbox" name="Staxes" id="Staxes">Taxes</div>
-                                <div style="width:130px;">
+                                <div id="showtas" style="width:130px;display:none;">
                                     <table>
                                         <tr>
                                             <td>Tax 1<br><input type="text" name="taxs1" id="taxs1" style="width:50px;"></td>
@@ -134,24 +139,36 @@ small{
                                 </div>
                             </td>
                             <td>
-                                <div style="width:110px;"><input type="checkbox" name="SRecurring" id="SRecurring">Recurring</div>
-                                <div style="width:110px;">
+                                <div id="showRecc" style="width:100px;display:none;">
                                     <table>
                                         <tr>
-                                            <td>Frequency<br><input type="text" name="RecFreq" id="RecFreq" style="width:75px;"></td>
+                                            <td>Frequency<br>
+                                                <select name="RecFreq" id="RecFreq" style="width:75px;">
+                                                    <option value="weekly">Weekly</option>
+                                                    <option value="2weeks">2 Weeks</option>
+                                                    <option value="4weeks">4 Weeks</option>
+                                                    <option value="monthly">Monthly</option>
+                                                    <option value="2months">2Months</option>
+                                                    <option value="3months">3Months</option>
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Until<br><input type="text" name="RecUntil" id="RecUntil" style="width:75px;"></td>
+                                            <td>Until<br>
+                                                <select name="RecUntil" id="RecUntil" style="width:75px;" onchange="showEndate(this.value)">
+                                                    <option value="forever">Forever</option>
+                                                    <option value="Endate">End Date</option>
+                                                </select>
+                                            </td>
                                         </tr>
-                                        <tr>
+                                        <tr id="showeDate" style="display:none;">
                                             <td>End Date<br><input type="text" name="RecEndDate" id="RecEndDate" style="width:75px;"></td>
                                         </tr>
                                     </table>
                                 </div>
                             </td>
                             <td>
-                                <div style="width:130px;"><input type="checkbox" name="SAssign" id="SAssign">Assign To Client</div>
-                                <div style="width:130px;">
+                                <div id="showAssgn" style="width:130px;display:none;">
                                     <table>
                                         <tr>
                                             <td>Client<br><input type="text" name="AssgnCl" id="AssgnCl" style="width:75px;"></td>
@@ -192,6 +209,8 @@ small{
             $('#newC').show();
         });
 
+        $('#ExPNotes')
+
         // Date picker
         $(function() {
             $( "#ExDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
@@ -199,6 +218,57 @@ small{
             $( "#RecEndDate" ).datepicker({ dateFormat: 'dd-mm-yy' });            
         });
 	});
+
+    // Show checked
+    function showDrop(Vals)
+    {
+        //Taxes
+        if(Vals == "taxs")
+        {
+            if (document.getElementById('Staxes').checked) {
+                $('#showtas').slideDown();
+            } 
+            else
+            {
+                $('#showtas').slideUp();
+            }
+        }
+        //Reccuring 
+        if(Vals == "Recc")
+        {
+            if (document.getElementById('SRecurring').checked) {                
+                $('#showRecc').show();
+                $('#showtas').css('margin-top','-45px');
+                $('#showAssgn').css('margin-top','-45px');
+            }
+            else
+            {
+                $('#showRecc').hide();
+                $('#showtas').css('margin-top','0px');
+                $('#showAssgn').css('margin-top','0px');
+            } 
+        }        
+        // Assign clients
+        if(Vals == "Assgn")
+        {
+            if (document.getElementById('SAssign').checked) {
+                $('#showAssgn').slideDown();
+            } 
+            else
+            {
+                $('#showAssgn').slideUp();
+            }
+        }        
+    }
+
+    function showEndate(sww)
+    {
+        if(sww == "Endate")
+        {
+            $('#showeDate').show();
+        }
+    }
+
 
     var specialKeys = new Array();
         specialKeys.push(8); //Backspace

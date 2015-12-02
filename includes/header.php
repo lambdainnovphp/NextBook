@@ -20,8 +20,9 @@ include('dbconfig.php');
 						<a href="index.php">Home</a>				
 						<a href="#">People</a>
 						<a href="Invoice.php">Invoices</a>
+						<a href="Estimates.php">Estimates</a>
 						<a href="Expenses.php">Expenses</a>				
-						<a href="logout.php">Sign Out</a>
+						<a href="logout.php">Sign Out</a>												
 					</div>
 				</li>
 
@@ -32,8 +33,13 @@ include('dbconfig.php');
 						<a href="index.php">Home</a>				
 						<a href="#">People</a>
 						<a href="#">Invoices</a>
+						<a href="#">Estimates</a>
 						<a href="#">Expenses</a>
 					</div>
+				</li>			
+
+				<li style="float:right;">
+					<a href="SignUp.php">Sign Up</a>
 				</li>
 
 				<?php } ?>

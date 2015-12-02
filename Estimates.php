@@ -2,7 +2,6 @@
 include("includes/header.php");
 $Usql = "select * from users where email='".$_SESSION['Email']."'";
 $res_Usql=mysql_fetch_assoc(mysql_query($Usql));
-
 if($_POST['submit']=="Send Email")
 {
 	//print_r($_POST); exit;
@@ -43,11 +42,11 @@ if($_POST['submit']=="Send Email")
 					
 		    Welcome <?php echo $res_Usql['Firstname'];?>
 		    <br><br>
-		    <button id="newInv" style="float:right;">+ New Invoice</button>
+		    <button id="newInv" style="float:right;">+ New Estimate</button>
 		    <table id="showInv">
 		        <tr>
 		            <td>S.No</td>
-		            <td>InvoiceNo.</td>
+		            <td>EstimateNo.</td>
 		            <td>Client Name</td>
 		            <td>Email</td>
 		            <td>CreatedOn</td>
@@ -56,15 +55,15 @@ if($_POST['submit']=="Send Email")
 		            <td></td>
 		        </tr>
 		        <?php
-		        $UserInvoice = "select * from invoice where UserId='".$_SESSION['Userid']."'";
-		        $Res_UserInv = mysql_query($UserInvoice);
+		        $UserEstimate = "select * from estimate where UserId='".$_SESSION['Userid']."'";
+		        $Res_UserInv = mysql_query($UserEstimate);
 		        $Usno = 0;
 		        while($UserInv_row = mysql_fetch_array($Res_UserInv))
 		        {
 		        ?>
 			        <tr>
 			            <td><?php echo $Usno++;?></td>
-			            <td><?php echo $UserInv_row['invoiceNumber'];?></td>
+			            <td><?php echo $UserInv_row['estimateNumber'];?></td>
 			            <td><?php echo $UserInv_row['organizationName'];?></td>
 			            <td><?php echo $UserInv_row['email'];?></td>
 			            <td><?php echo $UserInv_row['dateOfIssue'];?></td>
@@ -75,7 +74,7 @@ if($_POST['submit']=="Send Email")
 		        <?php } ?>
 		    </table> 
 
-		    <form name="NewInvoice" method="post">
+		    <form name="Newestimate" method="post">
 		    	<div id="insertInv" style="width:620px;display:none;">		    	
 			    	
 			    	<div class="left-div">
@@ -103,10 +102,10 @@ if($_POST['submit']=="Send Email")
 			    	<div class="right-div">
                         <table>
                             <tr>
-                                <td>Invoice No.</td><td><input type="text" name="InvoiceNo" id="InvoiceNo" required></td>
+                                <td>Estimate No.</td><td><input type="text" name="EstimateNo" id="EstimateNo" required></td>
                             </tr>
                             <tr>
-                                <td>Date</td><td><input type="text" name="InvoiceDate" id="InvoiceDate" required></td>
+                                <td>Date</td><td><input type="text" name="EstimateDate" id="EstimateDate" required></td>
                             </tr>                                                        
                         </table>
                     </div>                    
@@ -220,14 +219,14 @@ if($_POST['submit']=="Send Email")
                     $('#tasks tr:last').find('#tasktot').html('0');         
                 });
 
-                // Add Invoice Section
+                // Add Estimate Section
 		    	$('#newInv').click(function(){
 		    		$(this).fadeOut('fast');
 		    		$('#showInv').fadeOut('slow');
 		    		$('#insertInv').slideDown('slow');
 		    	});
 
-		    	// close Invoice Section
+		    	// close Estimate Section
 		    	$('#cancel').click(function(){
 		    		$('#newInv').fadeIn('fast');
 		    		$('#showInv').fadeIn('fast');
@@ -252,7 +251,7 @@ if($_POST['submit']=="Send Email")
 
 		    	// Date picker
 		    	$(function() {
-			        $( "#InvoiceDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
+			        $( "#EstimateDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
 			    });  
 
 		    });
