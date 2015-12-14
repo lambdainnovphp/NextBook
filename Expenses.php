@@ -26,42 +26,43 @@ small{
 	<div id="container">
 		Dashboard<br>
     	Welcome <?php echo $res_Usql['Firstname'];?>    
-        <span id="newC" style="float:right; background-color:#ccc; padding:5px; cursor:pointer;">Create New Expense</span>
-        <div id="CreateCl" style="display:none; padding-top:10px;">
-        	<strong>New Expense</strong><br>
-            <form name="NewExpense" method="post">
-                <table>
-					<tr>
-                        <td>Title</td><td>: <input type="text" name="Extitle" id="Extitle" required></td>
-                    </tr>
-                    <tr>
-                        <td>Amount</td><td>: <input type="text" name="Amount" id="Amount" required onkeypress="return IsNumeric(event)"></td>
-                    </tr>
-                    <tr>
-                        <td>Date</td><td>: <input type="text" name="ExDate" id="ExDate" required></td>
-                    </tr>
-                    <tr>
-                        <td>Vendor</td><td>: <input type="text" name="ExVendor" id="ExVendor" required></td>
-                    </tr>
-                    <tr>
-                        <td>Category</td><td>: <input type="text" name="Excategory" id="Excategory" required></td>
-                    </tr>
-                    <tr>
-                        <td>Notes</td><td>: <input type="text" name="Exnotes" id="Exnotes" required></td>
-                    </tr>                    
-                    <tr>
-                        <td></td><td>&nbsp;&nbsp;
-                        <input type="button" id="newCancel"  style="background-color:#093;color:#fff;width:70px; font-family:Georgia, 'Times New Roman', Times, serif;font-size:14px;float:right;cursor:pointer;margin:15px 0px 0px 5px;" value="Cancel">
-                        <input type="submit" name="submit" value="Add Expense" style="background-color:#093;color:#fff;width:110px; font-family:Georgia, 'Times New Roman', Times, serif;font-size:14px;float:right;">                        
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            
-        </div>
 
-        <?php if($_GET['click']!="Edit" && $_GET['SortExp']==""){?>
+<?php if($_GET['click']!="Edit" && $_GET['SortExp']==""){?>
+
+            <span id="newC" style="float:right; background-color:#ccc; padding:5px; cursor:pointer;">Create New Expense</span>
+            <div id="CreateCl" style="display:none; padding-top:10px;">
+            	<strong>New Expense</strong><br>
+                <form name="NewExpense" method="post">
+                    <table>
+    					<tr>
+                            <td>Title</td><td>: <input type="text" name="Extitle" id="Extitle" required></td>
+                        </tr>
+                        <tr>
+                            <td>Amount</td><td>: <input type="text" name="Amount" id="Amount" required onkeypress="return IsNumeric(event)"></td>
+                        </tr>
+                        <tr>
+                            <td>Date</td><td>: <input type="text" name="ExDate" id="ExDate" required></td>
+                        </tr>
+                        <tr>
+                            <td>Vendor</td><td>: <input type="text" name="ExVendor" id="ExVendor" required></td>
+                        </tr>
+                        <tr>
+                            <td>Category</td><td>: <input type="text" name="Excategory" id="Excategory" required></td>
+                        </tr>
+                        <tr>
+                            <td>Notes</td><td>: <input type="text" name="Exnotes" id="Exnotes" required></td>
+                        </tr>                    
+                        <tr>
+                            <td></td><td>&nbsp;&nbsp;
+                            <input type="button" id="newCancel"  style="background-color:#093;color:#fff;width:70px; font-family:Georgia, 'Times New Roman', Times, serif;font-size:14px;float:right;cursor:pointer;margin:15px 0px 0px 5px;" value="Cancel">
+                            <input type="submit" name="submit" value="Add Expense" style="background-color:#093;color:#fff;width:110px; font-family:Georgia, 'Times New Roman', Times, serif;font-size:14px;float:right;">                        
+                            </td>
+                        </tr>
+                    </table>
+                </form>                
+            </div>
         
+
             <div id="showclient" style="margin-top:10px;">
             	<table cellspacing="20">
                     <thead>
@@ -94,7 +95,10 @@ small{
                 </table>            	
             </div>
 
-        <?php } else { 
+
+<?php } else { 
+
+
             $IndExp = mysql_query("Select * from expenses where id='".$_GET['SortExp']."'");
             $Res_IndExp = mysql_fetch_assoc($IndExp);?>
 
@@ -172,10 +176,7 @@ small{
                                     <table>
                                         <tr>
                                             <td>Client<br><input type="text" name="AssgnCl" id="AssgnCl" style="width:75px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Until<br><input type="text" name="AssgnProject" id="AssgnProject" style="width:75px;"></td>
-                                        </tr>                                        
+                                        </tr>                                    
                                     </table>
                                 </div>
                             </td>
@@ -183,6 +184,11 @@ small{
                         </tr>
 
                     </table>
+
+                    <div style="float:right;">
+                        <input type="submit" name="EditSave" value="Update">
+                        <input type="button" name="cancel" id="cancel" value="Cancel">
+                    </div>
                 </form>
             </div>
 
@@ -237,15 +243,11 @@ small{
         if(Vals == "Recc")
         {
             if (document.getElementById('SRecurring').checked) {                
-                $('#showRecc').show();
-                $('#showtas').css('margin-top','-45px');
-                $('#showAssgn').css('margin-top','-45px');
+                $('#showRecc').show();                
             }
             else
             {
-                $('#showRecc').hide();
-                $('#showtas').css('margin-top','0px');
-                $('#showAssgn').css('margin-top','0px');
+                $('#showRecc').hide();                
             } 
         }        
         // Assign clients
@@ -266,6 +268,14 @@ small{
         if(sww == "Endate")
         {
             $('#showeDate').show();
+            $('#showtas').css('margin-bottom','32px');
+            $('#showAssgn').css('margin-bottom','32px');
+        }
+        else
+        {
+            $('#showeDate').hide();
+            $('#showtas').css('margin-bottom','0px');
+            $('#showAssgn').css('margin-bottom','0px');
         }
     }
 

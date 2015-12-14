@@ -67,11 +67,11 @@ if($_POST['Edsubmit']=="Send Email")
 
 	<?php if($_GET['clicked'] == "Edit"){
 
-		$editInv = mysql_query("Select * from invoice where invoiceId='".$_GET['gets']."'");
+		$editInv = mysql_query("Select * from estimate where estimateId='".$_GET['gets']."'");
 		$res_editInv = mysql_fetch_array($editInv);?>
 
-<!-- Edit Invoice Section -->
-			<form name="NewInvoice" method="post">
+<!-- Edit estimate Section -->
+			<form name="Newestimate" method="post">
 		    	<div id="insertInv" style="width:620px;">		    	
 			    	
 			    	<div class="left-div">
@@ -110,10 +110,10 @@ if($_POST['Edsubmit']=="Send Email")
 			    	<div class="right-div">
                         <table>
                             <tr>
-                                <td>Invoice No.</td><td><input type="text" name="InvoiceNo" id="InvoiceNo" value="<?php echo $res_editInv['invoiceNumber'];?>"></td>
+                                <td>estimate No.</td><td><input type="text" name="estimateNo" id="estimateNo" value="<?php echo $res_editInv['estimateNumber'];?>"></td>
                             </tr>
                             <tr>
-                                <td>Date</td><td><input type="text" name="InvoiceDate" id="InvoiceDate" value="<?php echo $res_editInv['dateOfIssue'];?>"></td>
+                                <td>Date</td><td><input type="text" name="estimateDate" id="estimateDate" value="<?php echo $res_editInv['dateOfIssue'];?>"></td>
                             </tr>                                                        
                         </table>
                     </div>                    
@@ -138,7 +138,7 @@ if($_POST['Edsubmit']=="Send Email")
 							</thead>
 
 							<tbody>
-							<?php $editTasksql = mysql_query("select * from invoicetasks where InvoiceId='".$res_editInv['invoiceId']."'");								  
+							<?php $editTasksql = mysql_query("select * from invoicetasks where InvoiceId='".$res_editInv['estimateId']."'");								  
 								  while($Task_rows = mysql_fetch_array($editTasksql))
 								  	{?>
 									<tr>
@@ -183,7 +183,7 @@ if($_POST['Edsubmit']=="Send Email")
 	                <div style="width:600px;">
 	                	<table style="float:right;">
 	                		<tr>
-	                        	<td style="float:right;"><input type="submit" name="Edsubmit" value="Send Email"> <input type="button" name="Ecancel" id="Ecancel" onClick="location.href = 'Invoice.php'" value="Cancel"></td>
+	                        	<td style="float:right;"><input type="submit" name="Edsubmit" value="Send Email"> <input type="button" name="Ecancel" id="Ecancel" onClick="location.href = 'estimate.php'" value="Cancel"></td>
 	                        </tr>
 	                	</table>
 	                </div>
@@ -191,17 +191,17 @@ if($_POST['Edsubmit']=="Send Email")
 
 	            </div>
 			</form>
-<!-- End Edit Invoice Section -->
+<!-- End Edit estimate Section -->
 
 
 
 	<?php } else { ?>
 
-		    <button id="newInv" style="float:right;">+ New Invoice</button>
+		    <button id="newInv" style="float:right;">+ New estimate</button>
 		    <table id="showInv">
 		        <tr>
 		            <td>S.No</td>
-		            <td>InvoiceNo.</td>
+		            <td>estimateNo.</td>
 		            <td>Client Name</td>
 		            <td>Email</td>
 		            <td>CreatedOn</td>
@@ -210,27 +210,27 @@ if($_POST['Edsubmit']=="Send Email")
 		            <td></td>
 		        </tr>
 		        <?php
-		        $UserInvoice = "select * from invoice where UserId='".$_SESSION['Userid']."' and status='active'";
-		        $Res_UserInv = mysql_query($UserInvoice);
+		        $Userestimate = "select * from estimate where UserId='".$_SESSION['Userid']."' and status='active'";
+		        $Res_UserInv = mysql_query($Userestimate);
 		        $Usno = 1;
 		        while($UserInv_row = mysql_fetch_array($Res_UserInv))
 		        {
 		        ?>
 			        <tr>
 			            <td><?php echo $Usno++;?></td>
-			            <td><?php echo $UserInv_row['invoiceNumber'];?></td>
+			            <td><?php echo $UserInv_row['estimateNumber'];?></td>
 			            <?php $cliendata = mysql_fetch_assoc(mysql_query("select * from client where clientId=".$UserInv_row['ClientId'].""));?>
 			            <td><?php echo $cliendata['organizationName'];?></td>
 			            <td><?php echo $cliendata['email'];?></td>
 			            <td><?php echo $UserInv_row['dateOfIssue'];?></td>
 			            <td><?php echo $UserInv_row['amount'];?></td>
 			            <td><?php echo $UserInv_row['status'];?></td>
-			            <td><a href="Invoice.php?clicked=Edit&gets=<?php echo $UserInv_row['invoiceId'];?>">Edit</a></td>
+			            <td><a href="estimate.php?clicked=Edit&gets=<?php echo $UserInv_row['estimateId'];?>">Edit</a></td>
 			        </tr>
 		        <?php } ?>
 		    </table> 
 
-		    <form name="NewInvoice" method="post">
+		    <form name="Newestimate" method="post">
 		    	<div id="insertInv" style="width:620px;display:none;">		    	
 			    	
 			    	<div class="left-div">
@@ -258,10 +258,10 @@ if($_POST['Edsubmit']=="Send Email")
 			    	<div class="right-div">
                         <table>
                             <tr>
-                                <td>Invoice No.</td><td><input type="text" name="InvoiceNo" id="InvoiceNo" required></td>
+                                <td>estimate No.</td><td><input type="text" name="estimateNo" id="estimateNo" required></td>
                             </tr>
                             <tr>
-                                <td>Date</td><td><input type="text" name="InvoiceDate" id="InvoiceDate" required></td>
+                                <td>Date</td><td><input type="text" name="estimateDate" id="estimateDate" required></td>
                             </tr>                                                        
                         </table>
                     </div>                    
@@ -391,14 +391,14 @@ if($_POST['Edsubmit']=="Send Email")
                     $('#tasks tr:last').find('#tasktot').html('0');         
                 });
 
-                // Add Invoice Section
+                // Add estimate Section
 		    	$('#newInv').click(function(){
 		    		$(this).fadeOut('fast');
 		    		$('#showInv').fadeOut('slow');
 		    		$('#insertInv').slideDown('slow');
 		    	});
 
-		    	// close Invoice Section
+		    	// close estimate Section
 		    	$('#cancel').click(function(){
 		    		$('#newInv').fadeIn('fast');
 		    		$('#showInv').fadeIn('fast');
@@ -423,7 +423,7 @@ if($_POST['Edsubmit']=="Send Email")
 
 		    	// Date picker
 		    	$(function() {
-			        $( "#InvoiceDate" ).datepicker({ dateFormat: 'yy-mm-dd' });
+			        $( "#estimateDate" ).datepicker({ dateFormat: 'yy-mm-dd' });
 			    });  
 
 		    });
