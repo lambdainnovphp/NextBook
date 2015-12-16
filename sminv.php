@@ -1,19 +1,30 @@
 <?php
 error_reporting(0);
-if($_POST['invoice_btn']=="Save Invoice")
+include("includes/dbconfig.php");
+if($_POST['invoice_btn']=="Save Email")
 {
-print_r($_POST); exit;	
-}
+	//print_r($_POST); exit;	
+	$tottaskname = sizeof($_POST['data']['Invoice']['itemNo']); 
+	for($i=0;$i<$tottaskname;$i++)
+	{			
+    	$InvTaskSql = "insert into invoicetasks(InvoiceId,taskName,Description,rate,hour,tax1,tax2,TaskAmount) values('','".$_POST['data']['Invoice']['itemName'][$i]."','".$_POST['data']['Invoice']['itemDesc'][$i]."','".$_POST['data']['Invoice']['price'][$i]."','".$_POST['data']['Invoice']['quantity'][$i]."','','','".$_POST['data']['Invoice']['total'][$i]."')";
+    	$qq = mysql_query($InvTaskSql);
 
-?><!DOCTYPE html>
+    	$SIds = mysql_insert_id();
+    	$ssd .= $SIds.',';    	    	
+     	//$tot1 = $_POST['tasktotal'][$i];
+		// $dfd += $tot1;
+	}	
+
+	$InvSql = "insert into invoice(UserId,ClientId,invoiceNumber,amount,tasksIds,dateOfIssue,status) values('".$_SESSION['Userid']."','".$_POST['data']['clientCompanyName']."','".$_POST['InvoiceNo']."','".$_POST['data']['subTotal']."','".$ssd."','".$_POST['InvoiceDate']."','active')";
+	$resSql = mysql_query($InvSql);
+
+	header('location:invoice.php');
+}
+?>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="invoice system, php invoice script, invoice script, pro invoice maker, free php invoice/billing script, php Invoice software, php invoice generator script, invoice script open source, invoice generator php script, invoice script in php, javascript invoice script, invoice maker php script, php invoice script tutorial">
-    <meta name="keywords" content="invoice system, php invoice script, invoice script, pro invoice maker, free php invoice/billing script, php Invoice software, php invoice generator script, invoice script open source, invoice generator php script, invoice script in php, javascript invoice script, invoice maker php script, php invoice script tutorial">
-	<meta name="author" content="https://plus.google.com/+MuniAyothi/">
     <title>Invoice</title>
     <!-- Bootstrap -->
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200' rel='stylesheet' type='text/css'>
@@ -23,8 +34,6 @@ print_r($_POST); exit;
     
   	<!-- Script -->
     <script src="http://demo.smarttutorials.net/invoice-script-php/js/jquery.min.js"></script>
-    <script src="http://demo.smarttutorials.net/invoice-script-php/js/wayfinder.js" ></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
    
     <script>
 		// $(document).ready(function() {
@@ -55,7 +64,7 @@ print_r($_POST); exit;
 		    		</div>
 		    		
 		    		<div class='col-xs-4 col-sm-4 col-md-4 col-lg-4'>
-		    			<input data-loading-text="Saving Invoice..." type="submit" name="invoice_btn" value="Save Invoice" class="btn btn-success submit_btn invoice-save-top form-control"/>
+		    			<input data-loading-text="Saving Invoice..." type="submit" name="invoice_btn" value="Send Email" class="btn btn-success submit_btn invoice-save-top form-control"/>
 		    		</div>
 		    	</div>
 		      	<input id="currency" type="hidden" value="$">
@@ -89,8 +98,9 @@ print_r($_POST); exit;
 							<thead>
 								<tr>
 									<th width="2%"><input id="check_all" class="formcontrol" type="checkbox"/></th>
-									<th width="15%">Item No</th>
-									<th width="38%">Item Name</th>
+									<th width="10%">Item No</th>
+									<th width="15%">Item Name</th>
+									<th width="30%">Item Description</th>
 									<th width="15%">Price</th>
 									<th width="15%">Quantity</th>
 									<th width="15%">Total</th>
@@ -101,6 +111,7 @@ print_r($_POST); exit;
 										<td><input class="case" type="checkbox"/></td>
 										<td><input type="text" data-type="productCode" name="data[Invoice][itemNo][]" id="itemNo_1" class="form-control autocomplete_txt" autocomplete="off"></td>
 										<td><input type="text" data-type="productName" name="data[Invoice][itemName][]" id="itemName_1" class="form-control autocomplete_txt" autocomplete="off"></td>
+										<td><input type="text" data-type="productDesc" name="data[Invoice][itemDesc][]" id="itemDesc_1" class="form-control"></td>
 										<td><input type="number" name="data[Invoice][price][]" id="price_1" class="form-control changesNo" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"></td>
 										<td><input type="number" name="data[Invoice][quantity][]" id="quantity_1" class="form-control changesNo" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"></td>
 										<td><input type="number" name="data[Invoice][total][]" id="total_1" class="form-control totalLinePrice" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"></td>
@@ -108,7 +119,7 @@ print_r($_POST); exit;
 															</tbody>
 						</table>
 		      		</div>
-		      	</div>
+		      	</div>		      	
 		      	<div class='row'>
 		      		<div class='col-xs-12 col-sm-3 col-md-3 col-lg-3'>
 		      			<button class="btn btn-danger delete" type="button">- Delete</button>
@@ -117,7 +128,11 @@ print_r($_POST); exit;
 		      	</div>
 		      	<div class='row'>	
 		      		<div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'>
-		      			<h3>Notes: </h3>
+		      			<h4>Date : </h4>
+		      			<div class="form-group">
+		      				<input type="text" name="InvoiceDate" id="InvoiceDate" class="form-control" style="width:30%" placeholder="Invoice Date">
+		      			</div>
+		      			<h3>Notes : </h3>		      			
 		      			<div class="form-group">
 							<textarea class="form-control txt" rows='5' name="data[notes]" id="notes" placeholder="Your Notes"></textarea>
 						</div>						
@@ -175,6 +190,12 @@ print_r($_POST); exit;
 		</form>			
     </div>
     <script src="hhh.js"></script>
+
+    <!-- Jquery Date Picker -->
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">    
+	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<!-- End Jquery Date Picker -->
+
     <script>
     	$('.submit_btn').on('click', function(){
     		$(this).button('loading');
@@ -182,6 +203,11 @@ print_r($_POST); exit;
 
         $(document).ready(function(){
 			$('.currency').html( $('#currency').val() );
+
+			// Date picker
+	    	$(function() {
+		        $( "#InvoiceDate" ).datepicker({ dateFormat: 'yy-mm-dd' });
+		    });
        	});
         
 		// $('#clientCompanyName').autocomplete({
